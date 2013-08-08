@@ -27,6 +27,7 @@
                 source:(NSString *)_source
                 effect:(NSDictionary *)_effect
                   logo:(NSImage *)_logoImage
+            coordinate:(CLLocationCoordinate2D)_coordinate
 {
     self = [super init];
     if (self) {
@@ -35,6 +36,7 @@
         imageEffect = _effect;
         source = _source;
         logoImage = _logoImage;
+        coordinate = _coordinate;
 
         // calculate the offset of the tiles on the final image
         float dummy; // throw away variable for catching the int component
@@ -240,8 +242,23 @@
     return [key md5Digest];
 }
 
+- (NSString *)coordinateLatLng {
+    NSNumberFormatter *coordinateFormatter = [[NSNumberFormatter alloc] init];
+    [coordinateFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [coordinateFormatter setMaximumFractionDigits:8];
+
+    NSNumber *latitudeNumber = [NSNumber numberWithDouble:coordinate.latitude];
+    NSNumber *longitudeNumber = [NSNumber numberWithDouble:coordinate.longitude];
+
+    NSString *latitudeString = [coordinateFormatter stringFromNumber:latitudeNumber];
+    NSString *longitudeString = [coordinateFormatter stringFromNumber:longitudeNumber];
+
+    NSString *latlng = [NSString stringWithFormat:@"%@,%@", latitudeString, longitudeString];
+    return latlng;
+}
+
 - (NSURL *)fileURL {
-    NSString *fileName = [NSString stringWithFormat:@"map-%@.png", [self uniqueHash]];
+    NSString *fileName = [NSString stringWithFormat:@"map-%@-%@.png", [self coordinateLatLng], [self uniqueHash]];
     NSString *path = [[NSFileManager defaultManager] pathForPrivateFile:fileName];
     return [NSURL fileURLWithPath:path];
 }

@@ -20,13 +20,15 @@
     CGPoint pixelShift;
     NSOperationQueue *tileQueue;
     NSImage *logoImage;
+    CLLocationCoordinate2D coordinate;
 }
 
 - (id)initWithTileRect:(CGRect)_tileRect 
              zoomLevel:(unsigned short)_zoomLevel
                 source:(NSString *)_provider
                 effect:(NSDictionary *)_effect
-                  logo:(NSImage *)logoImage;
+                  logo:(NSImage *)logoImage
+            coordinate:(CLLocationCoordinate2D)_coordinate;
 
 - (void)fetchTilesWithSuccess:(void (^)(NSURL *filePath))success
                       failure:(void (^)(NSError *error))failure

@@ -153,7 +153,8 @@
                                        zoomLevel:self.zoomLevel
                                           source:self.source
                                           effect:self.selectedImageEffect
-                                            logo:self.logoImage];
+                                            logo:self.logoImage
+                                      coordinate:coordinate];
             
             [mapImage fetchTilesWithSuccess:^(NSURL *filePath) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:TTMapManagerFinishedLoad object:nil];
